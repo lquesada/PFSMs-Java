@@ -1,4 +1,4 @@
-package org.modelcc.automata;
+package org.modelcc.matcher.automata;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,11 @@ public class State {
     private boolean isIgnorePattern;
     
     private Integer priority;
-    
+
+    public State() {
+    	this(null,false,false,null);
+    }
+
     public State(Object id,boolean finalState) {
     	this(id,finalState,false,null);
     }

@@ -1,4 +1,4 @@
-package org.modelcc.automata;
+package org.modelcc.matcher.automata;
 
 public class Automaton {
     private State initialState;
