@@ -11,14 +11,14 @@ import org.modelcc.matcher.automata.State;
 public class EagerFAMatcher extends Matcher {
 
 	@Override
-    public List<Match> match(String input,List<Automaton> automaton) {
+    public List<Match> match(String input,List<Automaton> automata) {
         List<Match> matches = new ArrayList<Match>();
         int i;
         int j;
         for (i = 0;i < input.length();i++) {
             for (j = i;j < input.length();j++) {
-                for (int k = 0;k < automaton.size();k++) {
-                    if (isMatch(input,i,j,automaton.get(k))) {
+                for (int k = 0;k < automata.size();k++) {
+                    if (isMatch(input,i,j,automata.get(k))) {
                         matches.add(new Match(i,j,k));
                     }
                 }

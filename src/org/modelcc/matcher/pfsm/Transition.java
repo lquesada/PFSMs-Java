@@ -11,15 +11,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class Transition {
-	/* TODO
 
     private Character symbol;
     private State targetState;
     private int startIndex;
-    private Map<Type,Match> last;
+    private Map<Object,Match> last;
 
     Transition(Character symbol,State targetState,int startIndex) {
-        last = new HashMap<Type,Match>();
+        last = new HashMap<Object,Match>();
         this.symbol = symbol;
         this.targetState = targetState;
         this.startIndex = startIndex;
@@ -37,21 +36,21 @@ public class Transition {
         return startIndex;
     }
 
-    void setLasts(Map<Type,Match> lasts) {
-        Set<Entry<Type,Match>> entries = lasts.entrySet();
-        Iterator<Entry<Type,Match>> ite;
-        Entry<Type,Match> e;
+    void setLasts(Map<Object,Match> lasts) {
+        Set<Entry<Object,Match>> entries = lasts.entrySet();
+        Iterator<Entry<Object,Match>> ite;
+        Entry<Object,Match> e;
         for (ite = entries.iterator();ite.hasNext();) {
             e = ite.next();
             last.put(e.getKey(),e.getValue());
         }
     }
 
-    public Map<Type, Match> getLasts() {
+    public Map<Object, Match> getLasts() {
         return last;
     }
 
-    void setLast(Type type,Match match) {
+    void setLast(Object type,Match match) {
         Match m =  last.get(type);
         if (m != null)
             m.setShadowed(true);
@@ -85,5 +84,4 @@ public class Transition {
         return hash;
     }
 
-*/    
 }

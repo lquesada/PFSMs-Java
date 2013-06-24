@@ -15,12 +15,8 @@ import java.util.Set;
 
 public class EagerPFSMMatcher extends Matcher {
 
-    public List<Match> match(String input,List<Automaton> automaton) {
-		return null;
-    }
-/* TODO
-	@Override
-    public List<Match> run(String input,List<Automaton> automaton) {
+    @Override
+    public List<Match> match(String input,List<Automaton> automata) {
 
         Map<Object,HashSet<Transition>> transitions;
         transitions = new HashMap<Object,HashSet<Transition>>();
@@ -33,7 +29,8 @@ public class EagerPFSMMatcher extends Matcher {
         int i;
 
         for (i = 0;i < input.length();i++) {
-            add(transitions,new Transition('\0',automaton.getInitialState(),i));
+        	for (int j = 0;j < automata.size();j++)
+        		add(transitions,new Transition('\0',automata.get(j).getInitialState(),i));
             eps = get(transitions,'\0');
             while (!eps.isEmpty()) {
                 ite = eps.iterator();
@@ -51,7 +48,7 @@ public class EagerPFSMMatcher extends Matcher {
         return matches;
      }
 
-    private static HashSet<Transition> get(Map<Object,HashSet<Transition>> map,Character s) {
+    private HashSet<Transition> get(Map<Object,HashSet<Transition>> map,Character s) {
         HashSet<Transition> aux = map.get(s);
         if (aux == null) {
             aux = new HashSet<Transition>();
@@ -60,7 +57,7 @@ public class EagerPFSMMatcher extends Matcher {
         return aux;
     }
 
-    private static void add(Map<Object,HashSet<Transition>> map,Transition t) {
+    private void add(Map<Object,HashSet<Transition>> map,Transition t) {
         HashSet<Transition> aux = map.get(t.getSymbol());
         if (aux == null) {
             aux = new HashSet<Transition>();
@@ -69,14 +66,14 @@ public class EagerPFSMMatcher extends Matcher {
         aux.add(t);
     }
 
-    private static void apply(List<Match> matches,Map<Object, HashSet<Transition>> transitions, Transition t,int index) {
+    private void apply(List<Match> matches,Map<Object, HashSet<Transition>> transitions, Transition t,int index) {
         int i;
         Iterator<Character> ite;
         List<State> trs;
         Character symbol;
         State s = t.getTargetState();
         if (s.isFinalState())
-            matches.add(new Match(t.getStartIndex(),index,s.getId()));
+            matches.add(new Match(t.getStartIndex(),index,s.getMatchId()));
         Set<Character> symbols = s.getTransitionSymbols();
         for (ite = symbols.iterator();ite.hasNext();) {
             symbol = ite.next();
@@ -85,6 +82,4 @@ public class EagerPFSMMatcher extends Matcher {
                 add(transitions,new Transition(symbol,trs.get(i),t.getStartIndex()));
         }
     }
-
-    */
 }

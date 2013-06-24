@@ -15,17 +15,12 @@ import java.util.Set;
 
 public class GreedyPFSMMatcher extends Matcher {
 
-    public List<Match> match(String input,List<Automaton> automaton) {
-		return null;
-    }
-
-	/* TODO
 	@Override
-    public List<Match> run(String input,List<Automaton> automaton) {
+    public List<Match> match(String input,List<Automaton> automata) {
 
         Map<Character,ArrayList<Transition>> transitions;
         transitions = new HashMap<Character,ArrayList<Transition>>();
-        Set<Type> transdone;
+        Set<Object> transdone;
         List<Match> matches = new ArrayList<Match>();
         Character current;
         ArrayList<Transition> cur;
@@ -39,7 +34,8 @@ public class GreedyPFSMMatcher extends Matcher {
 
         for (i = 0;i < input.length();i++) {
             if (finalstate || transitions.isEmpty()) {
-                add(transitions,new Transition('\0',automaton.getInitialState(),i));
+            	for (int j = 0;j < automata.size();j++)
+            		add(transitions,new Transition('\0',automata.get(j).getInitialState(),i));
             }
             eps = get(transitions,'\0');
             while (!eps.isEmpty()) {
@@ -52,14 +48,14 @@ public class GreedyPFSMMatcher extends Matcher {
             current = input.charAt(i);
             cur = get(transitions,current);
             transitions.clear();
-            transdone = new HashSet<Type>();
+            transdone = new HashSet<Object>();
             for (ite = cur.iterator();ite.hasNext();) {
                 t = ite.next();
-                if (!transdone.contains(t.getTargetState().getType())) {
+                if (!transdone.contains(t.getTargetState().getMatchId())) {
                     s = apply(matches,transitions,t,i);
                     if (s != null) {
                         finalstate = true;
-                        transdone.add(s.getType());
+                        transdone.add(s.getMatchId());
                     }
                 }
             }
@@ -75,7 +71,7 @@ public class GreedyPFSMMatcher extends Matcher {
         return filtered;
      }
 
-    private static ArrayList<Transition> get(Map<Character,ArrayList<Transition>> map,Character s) {
+    private ArrayList<Transition> get(Map<Character,ArrayList<Transition>> map,Character s) {
         ArrayList<Transition> aux = map.get(s);
         if (aux == null) {
             aux = new ArrayList<Transition>();
@@ -84,7 +80,7 @@ public class GreedyPFSMMatcher extends Matcher {
         return aux;
     }
 
-    private static void add(Map<Character,ArrayList<Transition>> map,Transition t) {
+    private void add(Map<Character,ArrayList<Transition>> map,Transition t) {
         ArrayList<Transition> aux = map.get(t.getSymbol());
         if (aux == null) {
             aux = new ArrayList<Transition>();
@@ -93,7 +89,7 @@ public class GreedyPFSMMatcher extends Matcher {
         aux.add(t);
     }
 
-    private static State apply(List<Match> matches,Map<Character, ArrayList<Transition>> transitions, Transition t,int index) {
+    private State apply(List<Match> matches,Map<Character, ArrayList<Transition>> transitions, Transition t,int index) {
         int i;
         Iterator<Character> ite;
         List<State> trs;
@@ -102,7 +98,7 @@ public class GreedyPFSMMatcher extends Matcher {
         Match m = null;
         State s = t.getTargetState();
         if (s.isFinalState()) {
-            m = new Match(t.getStartIndex(),index,s.getType());
+            m = new Match(t.getStartIndex(),index,s.getMatchId());
             matches.add(m);
         }
         Set<Character> symbols = s.getTransitionSymbols();
@@ -113,7 +109,7 @@ public class GreedyPFSMMatcher extends Matcher {
                 tn = new Transition(symbol,trs.get(i),t.getStartIndex());
                 tn.setLasts(t.getLasts());
                 if (s.isFinalState())
-                    tn.setLast(s.getType(),m);
+                    tn.setLast(s.getMatchId(),m);
                 add(transitions,tn);
             }
         }
@@ -122,6 +118,4 @@ public class GreedyPFSMMatcher extends Matcher {
         else
             return null;
     }
-
-*/
 }

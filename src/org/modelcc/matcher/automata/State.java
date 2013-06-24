@@ -13,7 +13,7 @@ public class State {
     
     private Map<Character,List<State>> transitions;
 
-    private Type matchType;
+    private Object matchId;
     
     public State() {
     	this(null,null);
@@ -23,9 +23,9 @@ public class State {
     	this(id,null);
     }
 
-    public State(Object id,Type matchType) {
+    public State(Object id,Object matchId) {
     	this.id = id;
-    	this.matchType = matchType;
+    	this.matchId = matchId;
     	this.transitions = new HashMap<Character,List<State>>();
     }
 
@@ -38,11 +38,15 @@ public class State {
     }
     
     public boolean isFinalState() {
-        return (matchType!=null);
+        return (matchId!=null);
     }
 
-    public void setMatchType(Type matchType) {
-        this.matchType=matchType;
+    public void setMatchId(Object matchId) {
+        this.matchId=matchId;
+    }
+
+    public Object getMatchId() {
+    	return matchId;
     }
 
     public List<State> getTransitions(Character symbol) {

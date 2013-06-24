@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelcc.matcher.automata.Automaton;
-import org.modelcc.matcher.automata.Option;
 import org.modelcc.matcher.automata.State;
-import org.modelcc.matcher.automata.Type;
 import org.modelcc.matcher.fa.EagerFAMatcher;
+import org.modelcc.matcher.pfsm.EagerPFSMMatcher;
+import org.modelcc.matcher.pfsm.GreedyPFSMMatcher;
 
 public class MatcherTest {
 
@@ -16,7 +16,7 @@ public class MatcherTest {
 
         // Matches a+
         s0 = new State(0);
-        s1 = new State(1,new Type("word",Option.CONSIDER));
+        s1 = new State(1,"word");
         s0.addTransition('a',s1);
         s1.addTransition('a',s1);
         Automaton a = new Automaton(s0);
@@ -25,12 +25,14 @@ public class MatcherTest {
         automata.add(a);
         String input = "aaaaa aaa a  aa";
         
-        Matcher matcher = new EagerFAMatcher();
+        Matcher matcher = new GreedyPFSMMatcher();
         List<Match> matches = matcher.match(input, automata);
         for (int i = 0;i < matches.size();i++) {
         	Match match = matches.get(i);
         	System.out.println("Match in "+match.getStartIndex()+"-"+match.getEndIndex()+" of type "+match.getId());
         }
+
+        System.out.println("Total "+matches.size());
 	}
 	
 }
