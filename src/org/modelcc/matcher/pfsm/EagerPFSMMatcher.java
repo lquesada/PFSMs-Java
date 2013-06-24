@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class EagerPFSMMatcher extends Matcher {
 
-    public List<Match> run(String input,List<Automaton> automaton) {
+    public List<Match> match(String input,List<Automaton> automaton) {
 		return null;
     }
 /* TODO

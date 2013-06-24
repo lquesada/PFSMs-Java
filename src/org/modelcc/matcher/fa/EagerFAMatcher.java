@@ -1,4 +1,4 @@
-package org.modelcc.matcher.nfa;
+package org.modelcc.matcher.fa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import org.modelcc.matcher.Matcher;
 import org.modelcc.matcher.automata.Automaton;
 import org.modelcc.matcher.automata.State;
 
-public class EagerNFAMatcher extends Matcher {
+public class EagerFAMatcher extends Matcher {
 
 	@Override
-    public List<Match> run(String input,List<Automaton> automaton) {
+    public List<Match> match(String input,List<Automaton> automaton) {
         List<Match> matches = new ArrayList<Match>();
         int i;
         int j;

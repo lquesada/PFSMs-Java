@@ -11,28 +11,22 @@ public class State {
 
     private Object id;
     
-    private boolean finalState;
-    
-    private Map<Character,ArrayList<State>> transitions;
-    
-    private boolean isIgnorePattern;
-    
-    private Integer priority;
+    private Map<Character,List<State>> transitions;
 
+    private Type matchType;
+    
     public State() {
-    	this(null,false,false,null);
+    	this(null,null);
     }
 
-    public State(Object id,boolean finalState) {
-    	this(id,finalState,false,null);
+    public State(Object id) {
+    	this(id,null);
     }
 
-    public State(Object id,boolean finalState,boolean isIgnorePattern,Integer priority) {
-        transitions = new HashMap<Character,ArrayList<State>>();
-        this.id = id;
-        this.finalState = finalState;
-        this.setIgnorePattern(isIgnorePattern);
-        this.setPriority(priority);
+    public State(Object id,Type matchType) {
+    	this.id = id;
+    	this.matchType = matchType;
+    	this.transitions = new HashMap<Character,List<State>>();
     }
 
     public Object getId() {
@@ -44,11 +38,11 @@ public class State {
     }
     
     public boolean isFinalState() {
-        return finalState;
+        return (matchType!=null);
     }
 
-    public void setFinalState(boolean finalState) {
-        this.finalState=finalState;
+    public void setMatchType(Type matchType) {
+        this.matchType=matchType;
     }
 
     public List<State> getTransitions(Character symbol) {
@@ -64,7 +58,7 @@ public class State {
     }
 
     public void addTransition(Character symbol,State target) {
-        ArrayList<State> aux = transitions.get(symbol);
+        List<State> aux = transitions.get(symbol);
         if (aux == null) {
             aux = new ArrayList<State>();
             transitions.put(symbol,aux);
@@ -76,21 +70,5 @@ public class State {
     	if (transitions.get(symbol) != null)
     		transitions.get(symbol).remove(target);
     }
-
-	public boolean isIgnorePattern() {
-		return isIgnorePattern;
-	}
-
-	public void setIgnorePattern(boolean isIgnorePattern) {
-		this.isIgnorePattern = isIgnorePattern;
-	}
-
-	public Integer getPriority() {
-		return priority;
-	}
-
-	public void setPriority(Integer priority) {
-		this.priority = priority;
-	}
 
 }
