@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EagerPFSMMatcher extends Matcher {
+public class ExploratoryPFSMMatcher extends Matcher {
 
     @Override
     public List<Match> match(String input,List<Automaton> automata) {

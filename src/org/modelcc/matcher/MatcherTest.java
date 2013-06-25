@@ -6,7 +6,7 @@ import java.util.List;
 import org.modelcc.matcher.automata.Automaton;
 import org.modelcc.matcher.automata.State;
 import org.modelcc.matcher.fa.EagerFAMatcher;
-import org.modelcc.matcher.pfsm.EagerPFSMMatcher;
+import org.modelcc.matcher.pfsm.ExploratoryPFSMMatcher;
 import org.modelcc.matcher.pfsm.GreedyPFSMMatcher;
 
 public class MatcherTest {
