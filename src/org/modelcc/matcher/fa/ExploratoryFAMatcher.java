@@ -8,7 +8,7 @@ import org.modelcc.matcher.Matcher;
 import org.modelcc.matcher.automata.Automaton;
 import org.modelcc.matcher.automata.State;
 
-public class EagerFAMatcher extends Matcher {
+public class ExploratoryFAMatcher extends Matcher {
 
 	@Override
     public List<Match> match(String input,List<Automaton> automata) {
