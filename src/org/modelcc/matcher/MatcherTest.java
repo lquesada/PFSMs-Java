@@ -39,7 +39,7 @@ public class MatcherTest {
 		String AZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		String n09 = "0123456789";
 		String alphanum = az+AZ+n09;
-		Automaton emailaddress;
+/*		Automaton emailaddress;
 		{
 			State s0 = new State(0);
 			State s1 = new State(1);
@@ -121,10 +121,36 @@ public class MatcherTest {
 
 			ip = new Automaton(sa0);
 		}
+		*/
+		Automaton alpha;
+		{
+			State s0 = new State(0);
+			State s1 = new State(1,"alpha");
+			addBulkTransitions(s0,s1,az+AZ);
+			addBulkTransitions(s1,s1,az+AZ);
+			alpha = new Automaton(s0);
+		}
+		Automaton numeric;
+		{
+			State s0 = new State(0);
+			State s1 = new State(1,"numeric");
+			addBulkTransitions(s0,s1,n09);
+			addBulkTransitions(s1,s1,n09);
+			numeric = new Automaton(s0);
+		}
+		Automaton alphanumeric;
+		{
+			State s0 = new State(0);
+			State s1 = new State(1,"alphanumeric");
+			addBulkTransitions(s0,s1,az+AZ+n09);
+			addBulkTransitions(s1,s1,az+AZ+n09);
+			alphanumeric = new Automaton(s0);
+		}
+
 		List<Automaton> automata = new ArrayList<Automaton>();
-        automata.add(emailaddress);
-        automata.add(phonenumber);
-        automata.add(ip);
+        automata.add(alpha);
+        automata.add(numeric);
+        automata.add(alphanumeric);
         String input = "aaaaa atest@elezeta.comaa a9994141 382.48.82.841.412 aa";
 
         {
