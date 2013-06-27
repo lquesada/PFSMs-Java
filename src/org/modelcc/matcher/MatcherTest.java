@@ -199,7 +199,8 @@ public class MatcherTest {
 			a1 = tryMatcher("EXDFA",""+i,new ExploratoryDFAMatcher(),process,automata);
 			a2 = tryMatcher("IEDFA",""+i,new ImprovedExploratoryDFAMatcher(),process,automata);
 			a3 = tryMatcher("EPFSM",""+i,new ExploratoryPFSMMatcher(),process,automata);
-			a4 = tryMatcher("IPFSM",""+i,new ImprovedExploratoryPFSMMatcher(),process,automata);
+
+			a4 = a3;
 			System.out.println(""+a1+"  "+a2+"  "+a3+"  "+a4);
 	        if (a1 != a3 || a2 != a3 || a3 != a4) {
 	        	System.out.println("ERROR");
