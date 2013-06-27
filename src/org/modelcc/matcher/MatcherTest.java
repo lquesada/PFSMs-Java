@@ -1,15 +1,22 @@
 package org.modelcc.matcher;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.modelcc.matcher.automata.Automaton;
 import org.modelcc.matcher.automata.State;
-import org.modelcc.matcher.fa.ExploratoryFAMatcher;
+import org.modelcc.matcher.dfa.ExploratoryDFAMatcher;
+import org.modelcc.matcher.dfa.ImprovedExploratoryDFAMatcher;
 import org.modelcc.matcher.pfsm.ExploratoryPFSMMatcher;
 import org.modelcc.matcher.pfsm.GreedyPFSMMatcher;
+import org.modelcc.matcher.pfsm.ImprovedExploratoryPFSMMatcher;
 
 public class MatcherTest {
 
@@ -151,29 +158,77 @@ public class MatcherTest {
         automata.add(alpha);
         automata.add(numeric);
         automata.add(alphanumeric);
-        String input = "aaaaa atest@elezeta.comaa a9994141 382.48.82.841.412 aa";
 
-        {
-	        Matcher matcher = new ExploratoryFAMatcher();
-	        List<Match> matches = matcher.match(input, automata);
-	        for (int i = 0;i < matches.size();i++) {
-	        	Match match = matches.get(i);
-	        	System.out.println("Match in "+match.getStartIndex()+"-"+match.getEndIndex()+" of type "+match.getId()+"  "+input.substring(match.getStartIndex(),match.getEndIndex()+1));
-	        }
-	
-	        System.out.println("Total FA "+matches.size());
-        }
+        args = new String[4];
+        args[0] = "/home/elezeta/testfile";
+        args[1] = "0";
+        args[2] = "16384";
+        args[3] = "1048576";
 
-        {
-	        Matcher matcher = new ExploratoryPFSMMatcher();
-	        List<Match> matches = matcher.match(input, automata);
-	        for (int i = 0;i < matches.size();i++) {
-	        	Match match = matches.get(i);
-	        	System.out.println("Match in "+match.getStartIndex()+"-"+match.getEndIndex()+" of type "+match.getId()+"  "+input.substring(match.getStartIndex(),match.getEndIndex()+1));
+        args[1] = "1024";
+        args[2] = "256";
+        args[3] = "16384";
+
+        String input = null;
+		try {
+			input = readFile(args[0]);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		int minSize = Integer.parseInt(args[1]);
+		int increment = Integer.parseInt(args[2]);
+		int maxSize = Integer.parseInt(args[3]);
+		
+		if (maxSize>input.length()) {
+			System.out.println("MAXSIZE IS GREATER THAN FILE LENGTH.");
+			System.exit(-1);
+		}
+		int a1;
+		int a2;
+		int a3;
+		int a4;
+		//tryMatcher("SETUP","SETUP1",new ImprovedExploratoryDFAMatcher(),input.substring(0,1048576),automata);
+		//tryMatcher("SETUP","SETUP2",new ImprovedExploratoryDFAMatcher(),input.substring(0,1048),automata);
+		//tryMatcher("SETUP","SETUP3",new ImprovedExploratoryDFAMatcher(),input.substring(0,1048),automata);
+
+		for (int i = minSize;i <= maxSize;i+=increment) {
+			String process = input.substring(0,i);
+			
+			a1 = tryMatcher("EXDFA",""+i,new ExploratoryDFAMatcher(),process,automata);
+			a2 = tryMatcher("IEDFA",""+i,new ImprovedExploratoryDFAMatcher(),process,automata);
+			a3 = tryMatcher("EPFSM",""+i,new ExploratoryPFSMMatcher(),process,automata);
+			a4 = tryMatcher("IPFSM",""+i,new ImprovedExploratoryPFSMMatcher(),process,automata);
+			System.out.println(""+a1+"  "+a2+"  "+a3+"  "+a4);
+	        if (a1 != a3 || a2 != a3 || a3 != a4) {
+	        	System.out.println("ERROR");
+	        	System.exit(-1);
 	        }
+		}
+	}
 	
-	        System.out.println("Total PFSM "+matches.size());
-        }
+	private static int tryMatcher(String id,String id2,Matcher matcher,String input,List<Automaton> automata) {
+		List<Match> matches = null;
+		long startTime = System.nanoTime();
+    	matches = matcher.match(input, automata);
+        long endTime = System.nanoTime();
+        System.out.println(id+" "+id2+"\t"+(endTime-startTime));
+        return matches.size();
+	}
+
+	private static String readFile(String file) throws IOException {
+	    BufferedReader reader = new BufferedReader( new FileReader (file));
+	    String         line = null;
+	    StringBuilder  stringBuilder = new StringBuilder();
+	    String         ls = System.getProperty("line.separator");
+
+	    while( ( line = reader.readLine() ) != null ) {
+	        stringBuilder.append( line );
+	        stringBuilder.append( ls );
+	    }
+
+	    return stringBuilder.toString();
 	}
 	
 }

@@ -37,6 +37,7 @@ public class ExploratoryPFSMMatcher extends Matcher {
                 t = ite.next();
                 ite.remove();
                 apply(matches,transitions,t,i);
+                eps = get(transitions,'\0');
             }
             current = input.charAt(i);
             cur = get(transitions,current);

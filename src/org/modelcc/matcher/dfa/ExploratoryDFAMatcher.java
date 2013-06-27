@@ -1,4 +1,4 @@
-package org.modelcc.matcher.fa;
+package org.modelcc.matcher.dfa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.modelcc.matcher.Matcher;
 import org.modelcc.matcher.automata.Automaton;
 import org.modelcc.matcher.automata.State;
 
-public class ExploratoryFAMatcher extends Matcher {
+public class ExploratoryDFAMatcher extends Matcher {
 
 	@Override
     public List<Match> match(String input,List<Automaton> automata) {
