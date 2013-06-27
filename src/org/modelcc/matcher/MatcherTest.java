@@ -16,7 +16,6 @@ import org.modelcc.matcher.dfa.ExploratoryDFAMatcher;
 import org.modelcc.matcher.dfa.ImprovedExploratoryDFAMatcher;
 import org.modelcc.matcher.pfsm.ExploratoryPFSMMatcher;
 import org.modelcc.matcher.pfsm.GreedyPFSMMatcher;
-import org.modelcc.matcher.pfsm.ImprovedExploratoryPFSMMatcher;
 
 public class MatcherTest {
 
@@ -165,10 +164,6 @@ public class MatcherTest {
         args[2] = "16384";
         args[3] = "1048576";
 
-        args[1] = "1024";
-        args[2] = "256";
-        args[3] = "16384";
-
         String input = null;
 		try {
 			input = readFile(args[0]);
@@ -197,12 +192,10 @@ public class MatcherTest {
 			String process = input.substring(0,i);
 			
 			a1 = tryMatcher("EXDFA",""+i,new ExploratoryDFAMatcher(),process,automata);
-			a2 = tryMatcher("IEDFA",""+i,new ImprovedExploratoryDFAMatcher(),process,automata);
-			a3 = tryMatcher("EPFSM",""+i,new ExploratoryPFSMMatcher(),process,automata);
+			//a2 = tryMatcher("IEDFA",""+i,new ImprovedExploratoryDFAMatcher(),process,automata);
+			a2 = tryMatcher("EPFSM",""+i,new ExploratoryPFSMMatcher(),process,automata);
 
-			a4 = a3;
-			System.out.println(""+a1+"  "+a2+"  "+a3+"  "+a4);
-	        if (a1 != a3 || a2 != a3 || a3 != a4) {
+	        if (a1 != a2) {
 	        	System.out.println("ERROR");
 	        	System.exit(-1);
 	        }
