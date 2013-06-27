@@ -161,8 +161,8 @@ public class MatcherTest {
         args = new String[4];
         args[0] = "/home/elezeta/testfile";
         args[1] = "0";
-        args[2] = "16384";
-        args[3] = "1048576";
+        args[2] = "256";
+        args[3] = "16384";
 
         String input = null;
 		try {
